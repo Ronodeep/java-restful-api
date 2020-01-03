@@ -1,22 +1,56 @@
 package com.spideron.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import com.spideron.database.DatabaseOps;
 import com.spideron.model.Message;
 
 public class MessageService {
-	
-	public List<Message> getAllMessages(){
-		Message mes1= new Message(1L, "Hello Ronodeep", "Ronodeep");
-		Message mes2= new Message(2L, "Hello Rohan", "Rohan");
-		Message mes3= new Message(3L, "Hello Sagnik", "Sagnik");
-		
-		List<Message> messageList=new ArrayList<Message>();
-		messageList.add(mes1);
-		messageList.add(mes2);
-		messageList.add(mes3);
-		
-		return messageList;
+
+	private Map<Long, Message> messageMap = DatabaseOps.getMessages();
+
+	public MessageService() {
+		messageMap.put(1L, new Message(1L, "Hello Ronodeep", "Ronodeep"));
+		messageMap.put(2L, new Message(2L, "Hello Rohan", "Rohan"));
+		messageMap.put(3L, new Message(3L, "Hello Sagnik", "Sagnik"));
+
+	}
+
+	public List<Message> getAllMessages() {
+
+		return new ArrayList<>(messageMap.values());
+	}
+
+	public Message getMessage(long messageid) {
+
+		return messageMap.get(messageid);
+	}
+
+	public Message addMessage(Message message) {
+
+		message.setId(messageMap.size() + 1);
+		message.setCreated(new Date());
+		messageMap.put(message.getId(), message);
+
+		return message;
+
+	}
+
+	public Message updateMessage(Message message) {
+
+		if (message.getId() > 0 && message.getId()<=messageMap.size()) {
+			messageMap.put(message.getId(), message);
+		} else {
+			return null;
+		}
+		return message;
+	}
+
+	public Message removeMessage(long mesId) {
+
+		return messageMap.remove(mesId);
 	}
 }
