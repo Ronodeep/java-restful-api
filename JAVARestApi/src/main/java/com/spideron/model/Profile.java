@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Profile {
-	private long profileId;
+	private String profileId;
 	private String profileName;
 	private String firstName;
 	private String lastName;
@@ -13,7 +13,7 @@ public class Profile {
 		super();
 	}
 
-	public Profile(long profileId, String profileName, String firstName, String lastName) {
+	public Profile(String profileId, String profileName, String firstName, String lastName) {
 		super();
 		this.profileId = profileId;
 		this.profileName = profileName;
@@ -21,11 +21,11 @@ public class Profile {
 		this.lastName = lastName;
 	}
 
-	public long getProfileId() {
+	public String getProfileId() {
 		return profileId;
 	}
 
-	public void setProfileId(long profileId) {
+	public void setProfileId(String profileId) {
 		this.profileId = profileId;
 	}
 

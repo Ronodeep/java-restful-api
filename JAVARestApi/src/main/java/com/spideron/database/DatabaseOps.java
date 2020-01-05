@@ -8,13 +8,13 @@ import com.spideron.model.Profile;
 
 public class DatabaseOps {
 	private static Map<Long, Message>messageMap=new HashMap<>();
-	private static Map<Long, Profile>profileMap=new HashMap<>();
+	private static Map<String, Profile>profileMap=new HashMap<>();
 	
 	public static Map<Long, Message> getMessages() {
 		
 		return messageMap;
 	}
-	public static Map<Long, Profile> getProfiles() {
+	public static Map<String, Profile> getProfiles() {
 		
 		return profileMap;
 	}

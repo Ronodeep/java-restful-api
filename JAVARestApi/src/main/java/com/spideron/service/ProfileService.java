@@ -8,14 +8,18 @@ import com.spideron.database.DatabaseOps;
 import com.spideron.model.Profile;
 
 public class ProfileService {
-	private static Map<Long, Profile> profileMap = DatabaseOps.getProfiles();
+	private static Map<String, Profile> profileMap = DatabaseOps.getProfiles();
 	
 	public ProfileService() {
-		profileMap.put(1L, new Profile(1L, "Ronodeep", "Ronodeep", "Bhattacharya"));
-		profileMap.put(2L, new Profile(2L, "Sagnik", "Sagnik", "Bhattacharyya"));
+		profileMap.put("Ronodeep", new Profile("Ronodeep", "Ronodeep", "Ronodeep", "Bhattacharya"));
+		profileMap.put("Sagnik", new Profile("Sagnik", "Sagnik", "Sagnik", "Bhattacharyya"));
 	}
 	
 	public List<Profile> getallProfiles(){
 		return new ArrayList<Profile>(profileMap.values());
+	}
+	
+	public Profile getProfile(String profileName){
+		return profileMap.get(profileName);
 	}
 }
