@@ -60,6 +60,7 @@ public class MessageService {
 		}
 		return messsageList.subList(start, start+size);
 	}
+	
 	public Message addMessage(Message message) {
 
 		message.setId(messageMap.size() + 1);

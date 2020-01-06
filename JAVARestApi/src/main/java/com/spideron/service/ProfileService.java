@@ -23,6 +23,14 @@ public class ProfileService {
 		return profileMap.get(profileName);
 	}
 	
+	public List<Profile> getProfilesOnPagination(int start, int size) {
+		
+		List<Profile> profileList = new ArrayList<Profile>();
+		profileList = new ArrayList<Profile>(profileMap.values());
+		
+		return profileList.subList(start, start+size);
+	}
+	
 	public Profile addNewProfile(Profile profile){
 		profile.setProfileId(profileMap.size()+1);
 		return profileMap.put(profile.getProfileName(), profile);

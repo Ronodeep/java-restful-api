@@ -2,6 +2,7 @@ package com.spideron.rest.resource;
 
 import java.util.List;
 
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -13,6 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.spideron.model.Profile;
+import com.spideron.rest.annotations.bean.ResourceAnnotationBeans;
 import com.spideron.service.ProfileService;
 
 @Path("/profiles")
@@ -21,11 +23,23 @@ import com.spideron.service.ProfileService;
 public class ProfileResource {
 
 	ProfileService profileService = new ProfileService();
-
+	
+	/**
+	 * This is demo of annotation bean class to replace @QueryParam
+	 * 
+	 * @param annotationBean
+	 * @return
+	 */
 	@GET
-	@Produces(MediaType.APPLICATION_XML)
-	public List<Profile> getAllProfiles() {
-		return profileService.getallProfiles();
+	public List<Profile> getProfileonPagination(@BeanParam ResourceAnnotationBeans annotationBean) {
+		if(annotationBean.getSize()>0 && annotationBean.getStart()>=0) {
+			System.out.println("Case 1");
+			return profileService.getProfilesOnPagination(annotationBean.getStart(), annotationBean.getSize());
+		}
+		else {
+			System.out.println("Case 2");
+			return profileService.getallProfiles();
+		}
 	}
 
 	@GET
@@ -35,7 +49,9 @@ public class ProfileResource {
 
 		return profileService.getProfile(profileName);
 	}
-
+	
+	
+	
 	@POST
 	public Profile addNewProfile(Profile profile) {
 		return profileService.addNewProfile(profile);
