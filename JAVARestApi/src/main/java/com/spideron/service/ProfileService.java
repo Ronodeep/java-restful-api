@@ -11,8 +11,8 @@ public class ProfileService {
 	private static Map<String, Profile> profileMap = DatabaseOps.getProfiles();
 	
 	public ProfileService() {
-		profileMap.put("Ronodeep", new Profile("Ronodeep", "Ronodeep", "Ronodeep", "Bhattacharya"));
-		profileMap.put("Sagnik", new Profile("Sagnik", "Sagnik", "Sagnik", "Bhattacharyya"));
+		profileMap.put("Ronodeep", new Profile(1L, "Ronodeep", "Ronodeep", "Bhattacharya"));
+		profileMap.put("Sagnik", new Profile(2L, "Sagnik", "Sagnik", "Bhattacharyya"));
 	}
 	
 	public List<Profile> getallProfiles(){
@@ -22,4 +22,24 @@ public class ProfileService {
 	public Profile getProfile(String profileName){
 		return profileMap.get(profileName);
 	}
+	
+	public Profile addNewProfile(Profile profile){
+		profile.setProfileId(profileMap.size()+1);
+		return profileMap.put(profile.getProfileName(), profile);
+	}
+	
+	public Profile updateProfile(Profile profile){
+		Profile returnProfile=null; 
+		if(!profile.getProfileName().isEmpty()) {
+			returnProfile= profileMap.put(profile.getProfileName(), profile);
+		}
+		
+		return returnProfile;
+	}
+	
+	public Profile deleteProfile(String profileName){
+		
+		return profileMap.remove(profileName);
+	}
+	
 }
