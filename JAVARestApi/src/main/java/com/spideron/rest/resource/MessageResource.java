@@ -78,4 +78,13 @@ public class MessageResource {
 		
 		mesServ.removeMessage(messageId);
 	}
+	
+	/**
+	 * Sub Resource for Comments
+	 * @return
+	 */
+	@Path("/{messageID}/comments")
+	public CommentResource getCommentResource() {
+		return new CommentResource();
+	}
 }

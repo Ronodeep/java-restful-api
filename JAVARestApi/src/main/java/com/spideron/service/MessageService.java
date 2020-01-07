@@ -14,9 +14,7 @@ public class MessageService {
 	private Map<Long, Message> messageMap = DatabaseOps.getMessages();
 
 	public MessageService() {
-		messageMap.put(1L, new Message(1L, "Hello Ronodeep", "Ronodeep"));
-		messageMap.put(2L, new Message(2L, "Hello Rohan", "Rohan"));
-		messageMap.put(3L, new Message(3L, "Hello Sagnik", "Sagnik"));
+		
 
 	}
 
