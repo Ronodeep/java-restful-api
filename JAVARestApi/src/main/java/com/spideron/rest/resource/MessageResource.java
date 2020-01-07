@@ -22,7 +22,7 @@ public class MessageResource {
 	MessageService mesServ=new MessageService();
 	
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	public List<Message> getAllMessages(@QueryParam("year")int year,@QueryParam("start")int start,@QueryParam("size")int size) {
 		System.out.println("Year="+year);
 		System.out.println("Start="+start);

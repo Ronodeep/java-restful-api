@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -12,8 +13,8 @@ public class Message {
 	private long id;
 	private String message;
 	private String author;
-	
 	private Date created;
+	@XmlTransient @JsonbTransient // This is for ignoring variable to appear in XML/JSON
 	private List<Comment>commentsList=new ArrayList<Comment>();
 	
 	public Message() {
@@ -51,11 +52,6 @@ public class Message {
 		this.created = created;
 	}
 	
-	/**
-	 * using {@link XmlTransient} to avoid being shown up in messages response.
-	 * @return
-	 */
-	@XmlTransient
 	public List<Comment> getCommentsList() {
 		return commentsList;
 	}
