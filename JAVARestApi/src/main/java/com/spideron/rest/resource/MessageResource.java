@@ -1,5 +1,6 @@
 package com.spideron.rest.resource;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -11,7 +12,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import com.spideron.model.Message;
 import com.spideron.service.MessageService;
@@ -48,9 +52,15 @@ public class MessageResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Message addMessage(Message message) {
-		
-		return mesServ.addMessage(message);
+	public Response addMessage(Message message, @Context UriInfo uriInfo) {
+		Message newMessage = mesServ.addMessage(message);
+		//returning the Status Code and Resource URL
+		//1. First Way
+		//return Response.status(Status.CREATED).entity(newMessage).build();
+		//2. Second Way Better Way to DO
+		String messageId=String.valueOf(newMessage.getId());
+		URI uri = uriInfo.getAbsolutePathBuilder().path(messageId).build();
+		return Response.created(uri).entity(newMessage).build();
 	}
 	
 	@GET
