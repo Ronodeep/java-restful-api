@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.spideron.database.DatabaseOps;
+import com.spideron.exception.DataNotFoundException;
 import com.spideron.model.Message;
 
 public class MessageService {
@@ -24,8 +25,11 @@ public class MessageService {
 	}
 
 	public Message getMessage(long messageid) {
-
-		return messageMap.get(messageid);
+		Message message = messageMap.get(messageid);
+		if(message==null) {
+			throw new DataNotFoundException("Message with ID "+messageid+ " not found");
+		}
+		return message;
 	}
 	
 	public List<Message> getMessagesForYear(int year) {
