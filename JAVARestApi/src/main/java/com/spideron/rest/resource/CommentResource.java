@@ -17,6 +17,7 @@ import com.spideron.service.CommentService;
 
 @Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 @Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+@Path("/")
 public class CommentResource {
 	
 	CommentService commentServ=new CommentService();

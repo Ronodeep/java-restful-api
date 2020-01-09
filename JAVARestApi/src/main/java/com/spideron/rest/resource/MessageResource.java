@@ -65,10 +65,44 @@ public class MessageResource {
 	
 	@GET
 	@Path("/{messageID}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Message getMessageForID(@PathParam("messageID") long messageId) {
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+	public Message getMessageForID(@PathParam("messageID") long messageId, @Context UriInfo uriInfo) {
 		
-		return mesServ.getMessage(messageId);
+		Message message = mesServ.getMessage(messageId);
+		message.addLinks(getUriForSelf(uriInfo, message), "self");
+		message.addLinks(getUriForProfile(uriInfo, message), "profile");
+		message.addLinks(getUriForComments(uriInfo, message), "comments");
+		return message;
+	}
+
+	/**
+	 * Method will return URI for all the comments for the messages
+	 * @param uriInfo
+	 * @param message
+	 * @return
+	 */
+	private String getUriForComments(UriInfo uriInfo, Message message) {
+		return uriInfo.getBaseUriBuilder().path(MessageResource.class).path(MessageResource.class, "getCommentResource")
+				.path(CommentResource.class).resolveTemplate("messageID", message.getId()).build().toString();
+	}
+
+	/**
+	 * Method will return URI for profile resource of the message's author
+	 * @param uriInfo
+	 * @param message
+	 */
+	private String getUriForProfile(UriInfo uriInfo, Message message) {
+		return uriInfo.getBaseUriBuilder().path(ProfileResource.class).path(message.getAuthor()).build().toString();
+	}
+
+	/**
+	 * Method will return URI for self message resource
+	 * @param uriInfo
+	 * @param message
+	 * @return
+	 */
+	private String getUriForSelf(UriInfo uriInfo, Message message) {
+		return uriInfo.getBaseUriBuilder().path(MessageResource.class).path(Long.toString((message.getId()))).build().toString();
 	}
 	
 	@PUT

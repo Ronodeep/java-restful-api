@@ -10,10 +10,13 @@ import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement
 public class Message {
+	
 	private long id;
 	private String message;
 	private String author;
 	private Date created;
+	private List<Link> links=new ArrayList<>();
+	
 	@XmlTransient @JsonbTransient // This is for ignoring variable to appear in XML/JSON
 	private List<Comment>commentsList=new ArrayList<Comment>();
 	
@@ -57,5 +60,15 @@ public class Message {
 	}
 	public void setCommentsList(List<Comment> commentsList) {
 		this.commentsList = commentsList;
+	}
+	public List<Link> getLinks() {
+		return links;
+	}
+	public void setLinks(List<Link> links) {
+		this.links = links;
+	}
+	public void addLinks(String  url,String rel) {
+		Link link=new Link(url, rel);
+		links.add(link);
 	}
 }
