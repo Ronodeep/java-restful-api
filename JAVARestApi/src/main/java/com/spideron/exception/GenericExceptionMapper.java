@@ -3,11 +3,10 @@ package com.spideron.exception;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
-import javax.ws.rs.ext.Provider;
 
 import com.spideron.model.ErrorMessage;
 
-@Provider
+//@Provider // removing for demo of exception using WebApplicationException
 public class GenericExceptionMapper implements ExceptionMapper<Throwable> {
 
 	@Override

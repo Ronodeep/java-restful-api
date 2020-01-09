@@ -6,8 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
 import com.spideron.database.DatabaseOps;
 import com.spideron.model.Comment;
+import com.spideron.model.ErrorMessage;
 import com.spideron.model.Message;
 
 public class CommentService {
@@ -44,13 +49,38 @@ public class CommentService {
 	public Comment getCommentForID(long messageId,long commentId) {
 		Comment specificComment = null;
 		
-		List<Comment> commentsList = messageMap.get(messageId).getCommentsList();
+		ErrorMessage errorMessage = new ErrorMessage("Not Found", "https://google.co.in", 404);
+		Response response= Response.status(Status.NOT_FOUND).entity(errorMessage).build();
 		
-		for (Comment comment : commentsList) {
-			if (comment.getCommentId() == commentId) {
-				specificComment = comment;
+		Message message = messageMap.get(messageId);
+		if(message==null) {
+			//Steps 1:
+			//throw new WebApplicationException(Status.NOT_FOUND); // This will send only the status to the response, Proper way to do it as use the Response
+			//Steps 2:
+			/*
+			
+			
+			throw new WebApplicationException(response); // using response object
+			*/
+			
+			/*
+			 * Steps 3:
+			 * Much More Cleaner way to do exception handling is using jersey specific exception class
+			 */
+			throw new NotFoundException(response);
+			
+		}
+		List<Comment> commentsList = messageMap.get(messageId).getCommentsList();
+		if(commentsList!=null && commentsList.size()>0) {
+			for (Comment comment : commentsList) {
+				if (comment.getCommentId() == commentId) {
+					specificComment = comment;
+				}else {
+					throw new NotFoundException(response);
+				}
 			}
 		}
+		
 		return specificComment;
 	}
 
