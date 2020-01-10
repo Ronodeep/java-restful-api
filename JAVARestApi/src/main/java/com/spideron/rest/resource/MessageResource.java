@@ -24,13 +24,48 @@ import com.spideron.service.MessageService;
 public class MessageResource {
 	
 	MessageService mesServ=new MessageService();
+	/**
+	 * Based on the accept header different methods can be called.
+	 * Based on content-type value different methods can be called.
+	 * 
+	 * @param year
+	 * @param start
+	 * @param size
+	 * @return
+	 */
+	@GET
+	@Produces({MediaType.APPLICATION_JSON})
+	public List<Message> getAllMessagesinJSON(@QueryParam("year")int year,@QueryParam("start")int start,@QueryParam("size")int size) {
+		//System.out.println("Year="+year);
+		//System.out.println("Start="+start);
+		//System.out.println("Size="+size);
+		System.out.println("Messages in JSON format");
+		if(year>0 && start>=0 && size>0) {
+			System.out.println("Case 1");
+			return mesServ.getMessagesOnPagination(year, start, size);
+		}
+		else if(year<=0 && start>=0 && size>0) {
+			System.out.println("Case 2");
+			return mesServ.getMessagesOnPagination(year, start, size);
+		}
+		else if(year>0) {
+			System.out.println("Case 3");
+			return mesServ.getMessagesForYear(year);
+		}
+		else {
+			System.out.println("Case 4");
+			return mesServ.getAllMessages();
+		}
+	}
 	
 	@GET
-	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
-	public List<Message> getAllMessages(@QueryParam("year")int year,@QueryParam("start")int start,@QueryParam("size")int size) {
-		System.out.println("Year="+year);
+	@Produces({MediaType.APPLICATION_XML})
+	public List<Message> getAllMessagesinXML(@QueryParam("year")int year,@QueryParam("start")int start,@QueryParam("size")int size) {
+		/*System.out.println("Year="+year);
 		System.out.println("Start="+start);
-		System.out.println("Size="+size);
+		System.out.println("Size="+size);*/
+		System.out.println("Messages in XML format");
+		
 		if(year>0 && start>=0 && size>0) {
 			System.out.println("Case 1");
 			return mesServ.getMessagesOnPagination(year, start, size);
